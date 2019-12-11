@@ -1,16 +1,29 @@
 server:
   port: 8000
 spring:
+  application:
+    name: @project.artifactId@    # 指定注册到 Eureka Server 上的应用名称
   jpa:
     generate-ddl: false
     show-sql: true
     hibernate:
       ddl-auto: none
-  datasource:             # 指定数据源
-    platform: h2          # 指定数据源类型
+  datasource:                         # 指定数据源
+    platform: h2                      # 指定数据源类型
     schema: classpath:sql/schema.sql  # 指定h2数据库的建表脚本
     data: classpath:sql/data.sql      # 指定h2数据库的数据脚本
-logging:
+
+# 配置 eureka
+eureka:
+  client:
+    service-url:
+#      defaultZone: http://user:password123@localhost:8764/eureka/
+      defaultZone: http://localhost:8761/eureka/
+#      defaultZone: http://localhost:8761/eureka/,http://peer1:8762/eureka/,http://peer2:8763/eureka/,http://user:password123@localhost:8764/eureka/
+  instance:
+    prefer-ip-address: true            # 表示将自己的 IP 注册到 Eureka Server 。默认为 false 则表示注册微服务所在的操作系统的 hostname 到 Eureka Server
+
+logging:                              # 配置日志级别，让hibernate打印执行的sql
   level:
     root: INFO
     org:
@@ -20,4 +33,11 @@ logging:
           sql:
             BasicBinder: TRACE
             BasicExtractor: TRACE
-    
+
+info:
+  app:
+    name: @project.artifactId@
+    encoding: @project.build.sourceEncoding@
+    java:
+      source: @java.version@
+      target: @java.version@

@@ -1,0 +1,22 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    name:  @project.artifactId@
+
+# 配置 eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/,http://peer1:8762/eureka/,http://peer2:8763/eureka/,http://user:password123@localhost:8764/eureka/
+  instance:
+    prefer-ip-address: true            # 表示将自己的 IP 注册到 Eureka Server 。默认为 false 则表示注册微服务所在的操作系统的 hostname 到 Eureka Server
+
+info:
+  app:
+    name: @project.artifactId@
+    encoding: @project.build.sourceEncoding@
+    java:
+      source: @java.version@
+      target: @java.version@
